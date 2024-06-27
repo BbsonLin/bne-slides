@@ -6,7 +6,8 @@
     "build": "rimraf dist && pnpm -r run build",
     "dev": "esno scripts/picker.ts dev --open",
     "lint": "eslint .",
-    "update": "esno scripts/redirects.ts"
+    "update": "esno scripts/redirects.ts",
+    "slidev": "slidev"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^1.2.1",
