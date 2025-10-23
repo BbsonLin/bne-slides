@@ -23,22 +23,20 @@ mdc: true
 
 
 <h1 class="flex flex-col">
-  <div text-2xl origin-top-left transition duration-500 :class="$clicks <= 2 ? 'scale-150' : 'op50'">
+  <div class="text-2xl transition duration-500" :class="$clicks <= 2 ? 'scale-150 absolute-center' : 'op50'">
     <span v-click>Twinkle AI 之 </span>
-    <span>熬夜書坊 </span>
+    <span :class="$clicks <= 2 ? 'text-4xl' : ''"> 熬夜書坊 </span>
     <sup v-click>2/n</sup>
   </div>
-  <div mt-1 v-click>The Progressive Path</div>
+  <div mt-1 v-click>Build a LLM from scratch</div>
 </h1>
 
 ---
 transition: fade-out
 layout: full
-growX: 10
-growY: 120
 ---
 
-# 
+# 幾個問題
 
 ## 模型要怎麼「看懂」文字？
 
@@ -47,15 +45,14 @@ growY: 120
 ## 模型要怎麼「知道順序」？
 
 
-
 <!--
 
 -->
 
 <style>
 h1 {
-  background-color: #2B90B6;
-  background-image: linear-gradient(45deg, #4EC5D4 10%, #146b8c 20%);
+  background-color:rgb(182, 145, 43);
+  background-image: linear-gradient(45deg,rgb(203, 212, 78) 10%,rgb(140, 102, 20) 20%);
   background-size: 100%;
   -webkit-background-clip: text;
   -moz-background-clip: text;
@@ -69,31 +66,12 @@ Here is another comment.
 -->
 
 ---
-transition: slide-up
-level: 2
+
+
 ---
 
-# Navigation
+# 詞嵌入 Word Embedding
 
-Hover on the bottom-left corner to see the navigation's controls panel, [learn more](https://sli.dev/guide/ui#navigation-bar)
-
-## Keyboard Shortcuts
-
-|                                                     |                             |
-| --------------------------------------------------- | --------------------------- |
-| <kbd>right</kbd> / <kbd>space</kbd>                 | next animation or slide     |
-| <kbd>left</kbd>  / <kbd>shift</kbd><kbd>space</kbd> | previous animation or slide |
-| <kbd>up</kbd>                                       | previous slide              |
-| <kbd>down</kbd>                                     | next slide                  |
-
-<!-- https://sli.dev/guide/animations.html#click-animation -->
-<img
-  v-click
-  class="absolute -bottom-9 -left-7 w-80 opacity-50"
-  src="https://sli.dev/assets/arrow-bottom-left.svg"
-  alt=""
-/>
-<p v-after class="absolute bottom-23 left-45 opacity-30 transform -rotate-10">Here!</p>
 
 ---
 layout: two-cols
@@ -115,11 +93,10 @@ The title will be inferred from your slide content, or you can override it with 
 <Toc text-sm minDepth="1" maxDepth="2" />
 
 ---
-layout: image-right
-image: https://cover.sli.dev
+layout: two-cols
 ---
 
-# Code
+# Tokenization
 
 Use code snippets and get the highlighting directly, and even types hover!
 
