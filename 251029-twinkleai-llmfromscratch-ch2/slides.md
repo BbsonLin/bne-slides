@@ -38,15 +38,37 @@ layout: full
 
 # 幾個問題
 
-## 要怎麼讓模型「看懂」文字？
+<br>
 
-## 要怎麼讓模型「學會語言的結構」？
+<div flex="~ col gap-24">
 
-## 要怎麼讓模型「知道順序」？
+  <div flex="~ gap-2 items-center">
+    <div flex="~ gap-2 items-center" v-click>
+      <div i-ph:book-open-text-duotone text-4xl />
+      <span font-bold text-4xl>要怎麼讓模型「看懂」文字？</span>
+    </div>
+  </div>
+    <!-- <span v-click op75 ml4>Put them in <code>components/</code> and use anywhere</span> -->
+
+  <div flex="~ gap-2 items-center">
+    <div flex="~ gap-2 items-center" v-click>
+      <div i-ph:tree-structure-duotone text-4xl />
+      <span font-bold text-4xl>要怎麼讓模型「學會語言的結構」？</span>
+    </div>
+  </div>
+
+
+  <div flex="~ gap-2 items-center">
+    <div flex="~ gap-2 items-center" v-click>
+      <div i-ph:list-numbers-duotone text-4xl />
+      <span font-bold text-4xl>要怎麼讓模型「知道順序」？</span>
+    </div>
+  </div>
+</div>
 
 
 <!--
-
+https://raw.githubusercontent.com/antfu/talks/refs/heads/main/2024-02-29/src/slides.md
 -->
 
 <style>
