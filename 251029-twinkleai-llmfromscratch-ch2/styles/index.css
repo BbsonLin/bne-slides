@@ -4,3 +4,7 @@
   left: 50%;
   translate: -65% -50%;
 }
+
+.slidev-vclick-target {
+  transition: all 500ms ease;
+}

@@ -23,14 +23,14 @@ mdc: true
 <h1 flex="~ col">
   <div flex text-2xl origin-top-left transition duration-500 :class="$clicks <= 2 ? 'scale-150' : 'op50'">
     <div flex="~ gap-2" duration-500 v-click>
-      <img src="https://cdn.discordapp.com/emojis/1377096605815013516.webp" w-8 alt="Twinkle AI" />
+      <img src="https://cdn.discordapp.com/emojis/1377096605815013516.webp" alt="Twinkle AI" w-8 />
       Twinkle AI 之
     </div>
     <div duration-500 :class="$clicks <= 0 ? 'text-4xl ml-10' : ''">熬夜書坊 </div>
     <sup v-click>2/n</sup>
   </div>
   <div mt-1 v-click>Build a LLM from scratch</div>
-  <div mt-8 flex="~ gap-2" v-click>
+  <div mt-8 flex="~ gap-2" transition duration-500 v-click>
     <img src="https://cdn.discordapp.com/avatars/410799622756499456/b0c14ec402d31695d719203b6ebba71b.webp" rounded-full w-15 h-15  />
     <div text-2xl >導讀人<br>Bobson Lin</div>
   </div>
@@ -248,6 +248,36 @@ transition: fade-out
 layout: full
 ---
 
+# Tiktokenizer
+
+https://tiktokenizer.vercel.app/?model=gpt2
+
+![](./images/Tiktokenizer-GPT2.png)
+
+<!-- 
+Build a LLM From Scratch
+從頭打造 LLM 實戰秘笈
+
+127 + 667 = 804
+1275 + 6673 = 8041
+
+for i in range(1, 101):
+    if i % 3 == 0 and i % 5 == 0:
+        print("FizzBuzz")
+    elif i % 3 == 0:
+        print("Fizz")
+    elif i % 5 == 0:
+        print("Buzz")
+    else:
+        print(i)
+ -->
+
+
+---
+transition: fade-out
+layout: full
+---
+
 <h1 font-bold flex="~ gap-2"> <div i-ph:tree-structure-duotone></div> <span v-mark="{at:1, color:'#ffd500', strokeWidth:3}">要怎麼讓模型「學會語言的結構」？</span> </h1>
 
 ## 嵌入 Embedding
@@ -307,11 +337,11 @@ vocab_size = 6
 output_dim = 3
 
 torch.manual_seed(123)
-embedding_layer = torch.nn.Embedding(vocab_size, output_dim)
-print(embedding_layer.weight)
+token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)
+print(token_embedding_layer.weight)
 
 input_ids = torch.tensor([2, 3, 5, 1])
-print(embedding_layer(input_ids))
+print(token_embedding_layer(input_ids))
 ```
 
 ``` log
@@ -338,10 +368,42 @@ layout: full
 <h1 font-bold flex="~ gap-2"> <div i-ph:list-numbers-duotone></div> <span v-mark="{at:1, color:'#ffd500', strokeWidth:3}">要怎麼讓模型「知道順序」？</span> </h1>
 
 
-<div flex="~ gap-2" mt-4 text-3xl>
+<div flex="~ gap-2" class="mt-12" text-3xl v-click>
   <div >我打你</div> <div i-ph:equals-bold v-mark="{type: 'crossed-off'}"></div> <div >你打我</div>
 </div>
 
+<v-clicks>
+
+模型無法感知詞元在序列中的 絕對位置 或 相對順序
+
+$Input Embedding=Token Embedding+Positional Embedding$
+
+</v-clicks>
+
+
+<style>
+.slidev-vclick-target {
+  transition: all 500ms ease;
+}
+
+</style>
+
+
+<!-- 
+詞元嵌入向量送入模型之前，會額外添加位置資訊
+
+* 機制： 額外訓練一個位置嵌入層（Position Embedding Layer），該層根據詞元在序列中的索引（例如 0, 1, 2, ...）產生一個對應的向量。
+* 結合方式： 這個位置向量會直接與詞嵌入向量相加，生成最終的輸入嵌入。
+  Input Embedding=Token Embedding+Positional Embedding
+* 效果： 即使同一個詞元（擁有相同的 Token Embedding）出現在序列的不同位置，由於它們的位置編碼不同，最終輸入到 Transformer 的向量也會不同。
+-->
+
+---
+transition: fade-out
+layout: full
+---
+
+# Take Away
 
 
 ---
