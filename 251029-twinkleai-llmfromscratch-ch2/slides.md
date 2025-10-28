@@ -270,6 +270,11 @@ for i in range(1, 101):
         print("Buzz")
     else:
         print(i)
+
+GPT2 的 Tokenizer 也存在些問題：
+非英文
+數學
+程式碼
  -->
 
 
@@ -340,8 +345,9 @@ torch.manual_seed(123)
 token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)
 print(token_embedding_layer.weight)
 
-input_ids = torch.tensor([2, 3, 5, 1])
-print(token_embedding_layer(input_ids))
+inputs = torch.tensor([2, 3, 5, 1])
+token_embeddings = token_embedding_layer(inputs)
+print(token_embeddings)
 ```
 
 ``` log
@@ -372,11 +378,15 @@ layout: full
   <div >我打你</div> <div i-ph:equals-bold v-mark="{type: 'crossed-off'}"></div> <div >你打我</div>
 </div>
 
+<br>
+
 <v-clicks>
 
-模型無法感知詞元在序列中的 絕對位置 或 相對順序
+模型無法感知詞元在序列中的 **絕對位置** 或 **相對位置**
 
-$Input Embedding=Token Embedding+Positional Embedding$
+$Input\ Embedding=Token\ Embedding+Positional\ Embedding$
+
+OpenAI GPT 用的是 **絕對位置** 嵌入
 
 </v-clicks>
 
@@ -403,7 +413,32 @@ transition: fade-out
 layout: full
 ---
 
-# Take Away
+# 將絕對位置嵌入
+
+
+``` python
+import torch
+
+...
+
+token_embeddings = token_embedding_layer(inputs)
+print(token_embeddings.shape)
+
+# uncomment & execute the following line to see how the embeddings look like
+print(token_embeddings)
+
+context_length = max_length
+pos_embedding_layer = torch.nn.Embedding(context_length, output_dim)
+
+# uncomment & execute the following line to see how the embedding layer weights look like
+print(pos_embedding_layer.weight)
+
+input_embeddings = token_embeddings + pos_embeddings
+print(input_embeddings.shape)
+
+# uncomment & execute the following line to see how the embeddings look like
+print(input_embeddings)
+```
 
 
 ---
@@ -431,7 +466,6 @@ layout: full
       <span font-bold text-3xl>要怎麼讓模型「學會語言的結構」？</span>
     </div>
   </div>
-
 
   <div flex="~ gap-2 items-center">
     <div flex="~ gap-2 items-center" v-click>
