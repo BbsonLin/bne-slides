@@ -8,11 +8,13 @@
     "export": "slidev export"
   },
   "dependencies": {
+    "@iconify-json/mdi": "^1.2.3",
     "@iconify-json/tabler": "^1.2.23",
     "@slidev/cli": "^52.2.5",
     "@slidev/theme-default": "latest",
     "@slidev/theme-seriph": "latest",
     "seedrandom": "^3.0.5",
+    "slidev-addon-fancy-arrow": "^0.13.13",
     "vue": "^3.5.22"
   }
 }

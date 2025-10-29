@@ -14,6 +14,8 @@ info: |
 drawings:
   persist: false
   syncAll: true
+addons:
+  - fancy-arrow
 # slide transition: https://sli.dev/guide/animations.html#slide-transitions
 transition: slide-left
 # enable MDC Syntax: https://sli.dev/features/mdc
@@ -104,21 +106,35 @@ layout: two-cols-header
 
 ### **表示/表示法 Representaion**
 
-人類
+<div flex="~ gap-4 items-center" my-4>
 
-<div i-tabler:language />
-<div i-tabler:math-symbols />
-<div i-tabler:music />
-<div i-tabler:library-photo />
+<div text-xl mr-8>人類</div>
 
-機器如何表示 資料 (Data)
-=> 轉換成 數字
+<div i-tabler:language text-3xl />
+<div i-tabler:math-symbols text-3xl />
+<div i-tabler:music text-3xl />
+<div i-tabler:library-photo text-3xl />
+
+</div>
+
+<hr>
+
+<div flex="~ gap-4 items-center" my-4>
+
+<div text-xl mr-8>機器</div>
+
+<div i-carbon:chart-multitype text-4xl />
+<div i-carbon:data-blob text-4xl />
+
+</div>
+
+
 
 <br>
 
 ### **將文字資料轉換數字/向量**
 
-<ol>
+<ol my-4>
   <li v-click>詞元切分 (Tokenization)</li>
   <li v-click>編碼/解碼 (Encode/Decode)</li>
   <li v-click="[3, 4]" :class="$clicks >= 4 ? 'op-25' : '' ">嵌入 (Embedding)</li>
@@ -140,7 +156,17 @@ layout: two-cols-header
 }
 </style>
 
+<!-- 
 
+講者 Notes｜要怎麼讓模型「看懂」文字？
+
+人類用語言、數學、音樂、影像來表達意義；
+機器只懂 Data 資料，準確來說是 0和1 數字
+我們的任務是把文字「表示」成機器可處理的數值表示。
+
+[Click]詞元切分 Tokenization
+
+-->
 
 ---
 transition: fade-out
@@ -156,20 +182,18 @@ layout: full
 將文本([The Verdict](https://en.wikisource.org/wiki/The_Verdict))依照空白做切分
 
 
-```python {hide|none|1-2|4-5|all}
+```python {hide|none|1-2|1-5|all}{lines:true}
 with open("the-verdict.txt", "r", encoding="utf-8") as f:  # 讀取 The Verdict 文本
     raw_text = f.read()
 
-preprocessed = re.split(r'([,.:;?_!"()\']|--|\s)', raw_text)  # 
-preprocessed = [item.strip() for item in preprocessed if item.strip()]  # 去除空白
+preprocessed = re.split(r'([,.:;?_!"()\']|--|\s)', raw_text)  # 按照正則把 raw_text 切成片段
+preprocessed = [item.strip() for item in preprocessed if item.strip()]  # 去除空白，避免產生空 token
 
 print(len(reprocessed))
 print(preprocessed[:30])
 ```
 
 </v-clicks>
-
-<br>
 
 <v-clicks>
 
@@ -183,16 +207,31 @@ print(preprocessed[:30])
 
 ---
 transition: fade-out
-layout: full
+layout: two-cols-header
 ---
 
 # 編碼/解碼 (Encode/Decode) 
 
-<v-clicks>
 
-<div text-xl mb-2> 透過建立一個 <span font-bold> 詞彙表 (Vocabulary)</span> 來實現 詞元 (Token) 到 整數 (Token ID) 的映射關係 </div>
+<div text-xl mb-2 v-click> 透過建立一個 <span font-bold> 詞彙表 (Vocabulary)</span> 來實現 詞元 (Token) 到 整數 (Token ID) 的映射關係 </div>
 
-```python {hide|none|1|2-4|6-12|14-17|all}{lines:false}
+
+::left::
+
+<div flex="~ col gap-4 items-center" my-2>
+
+<img w-48 transition duration-700 src="/images/Tokenize.png" alt="" v-click>
+
+<img w-40 transition duration-700 src="/images/Vocabulary.png" alt="" v-click>
+
+<div text-xl v-click> Vocabulary </div>
+
+</div>
+
+
+::right::
+
+```python {hide|all|1-4|1-12|1-17|all}{lines:true}
 class SimpleTokenizerV1:
     def __init__(self, vocab):
         self.str_to_int = vocab  # 詞彙表 (Vocabulary)
@@ -211,14 +250,9 @@ class SimpleTokenizerV1:
         text = re.sub(r'\s+([,.?!"()\'])', r'\1', text)
         return text
 ```
-
-</v-clicks>
-
 <div text-xl my-2 v-click>這樣就完成了 <span :class="$clicks <=8 ? 'hidden' : ''">嗎!?</span></div>
 
 <div text-xl v-click="10"> SimpleTokenizer is way too simple ... </div>
-
-
 
 
 ---
@@ -261,10 +295,12 @@ layout: full
 
 # 使用 tiktoken
 
-``` python
+<v-clicks>
+
+```python {hide|none|1|1-3|1-7|1-11|1-14|all}{lines:true}
 import tiktoken
 
-tokenizer = tiktoken.get_encoding("gpt2")
+tokenizer = tiktoken.get_encoding("gpt2")  # 用 GPT2 的分詞器
 
 text = (
     "Hello, do you like tea? <|endoftext|> In the sunlit terraces"
@@ -272,19 +308,19 @@ text = (
 )
 
 encoded_list = tokenizer.encode(text, allowed_special={"<|endoftext|>"})
-
 print(encoded_list)
 
 decoded_string = tokenizer.decode(encoded_list)
-
 print(decoded_string)
 ```
-<br>
+
 
 ``` log
 [15496, 11, 466, 345, 588, 8887, 30, 220, 50256, 554, 262, 4252, 18250, 8812, 2114, 1659, 617, 34680, 27271, 13]
 Hello, do you like tea? <|endoftext|> In the sunlit terracesof someunknownPlace.
 ```
+
+</v-clicks>
 
 
 ---
@@ -329,15 +365,43 @@ layout: full
 
 <h1 font-bold flex="~ gap-2"> <div i-ph:tree-structure-duotone></div> <span v-mark="{at:1, color:'#ffd500', strokeWidth:3}">要怎麼讓模型「學會語言的結構」？</span> </h1>
 
-## 嵌入 Embedding
 
-離散物件 => 映射 => 向量空間
+<div text-2xl>**嵌入 Embedding** : 將 **離散物件** **映射** 到 **向量空間**</div>
 
-## 詞嵌入 (Word Embeddings)
+詞嵌入 (Word Embeddings)
 
-文字(分詞後) => (詞)嵌入 (Word) Embedding => (嵌入)向量 (Eembedding Vector)
+<div flex="~ gap-64">
 
-  
+<div flex="~ col gap-2 justify-center items-center" data-id="raw-text">
+  <div i-carbon:document-multiple-01 text-8xl />
+  <div>Raw Text</div>
+</div>
+
+<FancyArrow v-click="1" forward:delay-100 q1="[data-id=raw-text]" pos1="right" q2="[data-id=embedding-vector]" pos2="left" color="red" width="8" seed="1" roughness="5" >
+</FancyArrow>
+
+<div flex="~ col gap-2 justify-end items-center" data-id="embedding-model" >
+<div i-carbon:foundation-model text-8xl mt-4/>
+  <div>Embedding Model</div>
+</div>
+
+<!-- <FancyArrow v-click="2" forward:delay-100 q1="[data-id=embedding-model]" pos1="right" q2="[data-id=embedding-vector]" pos2="left" color="red" width="2" seed="1" roughness="5" >
+</FancyArrow> -->
+
+<div flex="~ col gap-2 justify-center items-center" data-id="embedding-vector">
+  <div i-ph:vector-three text-8xl />
+  <div>Eembedding Vector/Matrix</div>
+</div>
+
+
+
+</div>
+
+<!-- ## 詞嵌入 (Word Embeddings)
+
+文字(分詞後) => (詞)嵌入 (Word) Embedding => (嵌入)向量 (Eembedding Vector) -->
+
+
 ---
 transition: fade-out
 layout: two-cols
@@ -345,6 +409,7 @@ layout: two-cols
 
 
 # 詞嵌入的小歷史
+NLP 小歷史(?
 
 
 <br>
@@ -358,9 +423,9 @@ layout: two-cols
 
 <h4 v-click="3">Word2Vec / GloVe / FastText</h4>
 
-<div i-ph-arrow-down op50 ml-1 text-sm />
+<div i-ph-arrow-down op50 ml-1 text-sm v-click="7" />
 
-<h4>ELMo / BERT / GPT</h4>
+<h4 v-click="7">ELMo / BERT / GPT</h4>
 
 
 </div>
@@ -369,40 +434,45 @@ layout: two-cols
 ::right::
 
 
-> Word2Vec: 透過轉換成向量空間能更好的捕捉詞彙之間的 **語義關係** 和 **相似性** 
+<blockquote v-click="4">
+  <p>Word2Vec: 透過轉換成向量空間能更好的捕捉詞彙之間的 <span font-bold>語義關係</span> 和 <span font-bold>相似性</span> </p>
+</blockquote>
 
-![](./images/Word%20Vectors%203D%20from%20DLI.jpg)
+<img v-click="5" src="./images/Word%20Vectors%203D%20from%20DLI.jpg" />
 
-https://lamyiowce.github.io/word2viz/
+<a v-click="5" href="https://www.deeplearningillustrated.com/" target="_blank" text-base>https://www.deeplearningillustrated.com/</a>
+
+<a v-click="6" href="https://lamyiowce.github.io/word2viz/" target="_blank" text-base>https://lamyiowce.github.io/word2viz/</a>
 
 
 ---
 transition: fade-out
-layout: two-cols
+layout: two-cols-header
 ---
 
 
 # 創建詞元嵌入層 (Token Embedding Layer)
 
+::left::
 
+<img w-90 transition duration-700 src="/images/TokenEmbedding.png" alt="" v-click>
 
 
 ::right::
 
 
-``` python
+``` python {hide|none|1-4|1-8|1-11|1-14|all}{lines:true}
 import torch
 
 vocab_size = 6
 output_dim = 3
-
-torch.manual_seed(123)
-token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)
-print(token_embedding_layer.weight)
-
 inputs = torch.tensor([2, 3, 5, 1])
-token_embeddings = token_embedding_layer(inputs)
-print(token_embeddings)
+
+token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)  # 建立嵌入層
+print(token_embedding_layer.weight, token_embedding_layer.weight.shape)
+
+token_embeddings = token_embedding_layer(inputs)  # 查閱操作 (Lookup Operation)
+print(token_embeddings, token_embeddings.shape)
 ```
 
 ``` log
@@ -420,6 +490,7 @@ tensor([[ 1.2753, -0.2010, -0.1606],
         [ 0.9178,  1.5810,  1.3010]], grad_fn=<EmbeddingBackward0>)
 ```
 
+<!--  -->
 
 ---
 transition: fade-out
@@ -468,31 +539,46 @@ transition: fade-out
 layout: full
 ---
 
-# 將絕對位置嵌入
+# 加上絕對位置嵌入層 (Position Embedding Layer) - I
+
+
+
+---
+transition: fade-out
+layout: full
+---
+
+# 加上絕對位置嵌入層 (Position Embedding Layer) - II
 
 
 ``` python
 import torch
 
-...
+vocab_size = 6
+output_dim = 3
+inputs = torch.tensor([2, 3, 5, 1])
+context_length = 4
 
-token_embeddings = token_embedding_layer(inputs)
-print(token_embeddings.shape)
+print("=="*5, "Token Embedding Layer", "=="*5)
 
-# uncomment & execute the following line to see how the embeddings look like
-print(token_embeddings)
+token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)  # 建立嵌入層
+print(token_embedding_layer.weight, token_embedding_layer.weight.shape)
 
-context_length = max_length
+token_embeddings = token_embedding_layer(inputs)  # 查閱操作 (Lookup Operation)
+print(token_embeddings, token_embeddings.shape)
+
+print("=="*5, "Position Embedding Layer", "=="*5)
+
 pos_embedding_layer = torch.nn.Embedding(context_length, output_dim)
+print(pos_embedding_layer.weight, pos_embedding_layer.weight.shape)
 
-# uncomment & execute the following line to see how the embedding layer weights look like
-print(pos_embedding_layer.weight)
+pos_embeddings = pos_embedding_layer(torch.arange(context_length))
+print(pos_embeddings, pos_embeddings.shape)
+
+print("=="*5, "Input Embedding Layer", "=="*5)
 
 input_embeddings = token_embeddings + pos_embeddings
-print(input_embeddings.shape)
-
-# uncomment & execute the following line to see how the embeddings look like
-print(input_embeddings)
+print(input_embeddings, input_embeddings.shape)
 ```
 
 
@@ -513,7 +599,12 @@ layout: full
       <span font-bold text-3xl>要怎麼讓模型「看懂」文字？</span>
     </div>
   </div>
-    <!-- <span v-click op75 ml4>Put them in <code>components/</code> and use anywhere</span> -->
+  <div flex="~ gap-2 items-center" v-click>
+    <div i-ph-arrow-bend-down-right-duotone op50 />
+    <div>
+      Making it easy to understand and get started
+    </div>
+  </div>
 
   <div flex="~ gap-2 items-center">
     <div flex="~ gap-2 items-center" v-click>
