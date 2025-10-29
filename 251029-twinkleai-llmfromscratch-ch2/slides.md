@@ -12,8 +12,9 @@ info: |
   Twinkle AI Study Group - Build LLM From Scratch ch2
 # https://sli.dev/features/drawing
 drawings:
-  persist: false
-  syncAll: true
+  enabled: false
+  # persist: false
+  # syncAll: true
 addons:
   - fancy-arrow
 # slide transition: https://sli.dev/guide/animations.html#slide-transitions
@@ -44,21 +45,44 @@ transition: fade-out
 layout: full
 ---
 
+# 行前通知
+<p flex="~ gap-2">打預防針時間<div i-ph:syringe-bold text-xl></div></p>
+
+<v-clicks>
+
+### ❌ 照本宣科
+
+### ✨ 程式碼 + 一些些 數學 + 一點點點 演算法
+
+參考資料: https://notebooklm.google.com/notebook/dc566599-aeb3-41ee-abc4-188794473a0a
+
+Big Shout out to ...
+
+<a href="https://youtube.com/playlist?list=PLTKMiZHVd_2IIEsoJrWACkIxLRdfMlw11&si=w2KrNOS3GJoBZQMF" target="_blank">
+  <img w-56 transition duration-700 src="/images/YT-BuildLLMFromScratch.png" alt="">
+</a>
+
+</v-clicks>
+
+---
+transition: fade-out
+layout: full
+---
+
 # 幾個問題
 
 <br>
 
-<div flex="~ col gap-24">
-
+<div flex="~ col">
   <div flex="~ gap-2 items-center">
     <div flex="~ gap-2 items-center" v-click>
       <div i-ph:book-open-text-duotone text-3xl />
       <span font-bold text-3xl>要怎麼讓模型「看懂」文字？</span>
     </div>
   </div>
-    <!-- <span v-click op75 ml4>Put them in <code>components/</code> and use anywhere</span> -->
 
-  <div flex="~ gap-2 items-center">
+
+  <div flex="~ gap-2 items-center" mt-16>
     <div flex="~ gap-2 items-center" v-click>
       <div i-ph:tree-structure-duotone text-3xl />
       <span font-bold text-3xl>要怎麼讓模型「學會語言的結構」？</span>
@@ -66,12 +90,13 @@ layout: full
   </div>
 
 
-  <div flex="~ gap-2 items-center">
+  <div flex="~ gap-2 items-center" mt-16>
     <div flex="~ gap-2 items-center" v-click>
       <div i-ph:list-numbers-duotone text-3xl />
       <span font-bold text-3xl>要怎麼讓模型「知道順序」？</span>
     </div>
   </div>
+
 </div>
 
 
@@ -100,50 +125,61 @@ transition: fade-out
 layout: two-cols-header
 ---
 
-<h1 font-bold flex="~ gap-2"> <div i-ph:book-open-text-duotone></div> <span v-mark="{at:1, color:'#ffd500', strokeWidth:3}">要怎麼讓模型「看懂」文字？</span> </h1>
+<h1 font-bold flex="~ gap-2"> <div i-ph:book-open-text-duotone></div> <span v-mark="{color:'#ffd500', strokeWidth:3}">要怎麼讓模型「看懂」文字？</span> </h1>
 
 ::left::
 
-### **表示/表示法 Representaion**
+<br>
+
+<v-click>
+
+## **表示/表示法 Representaion**
+
+</v-click>
 
 <div flex="~ gap-4 items-center" my-4>
 
-<div text-xl mr-8>人類</div>
+<div text-2xl mr-8 v-click>人類</div>
 
-<div i-tabler:language text-3xl />
-<div i-tabler:math-symbols text-3xl />
-<div i-tabler:music text-3xl />
-<div i-tabler:library-photo text-3xl />
+<div i-tabler:language text-4xl v-click />
+<div i-tabler:math-symbols text-4xl v-click />
+<div i-tabler:music text-4xl v-click />
+<div i-tabler:library-photo text-4xl v-click />
 
 </div>
 
+<v-click>
 <hr>
+</v-click>
 
 <div flex="~ gap-4 items-center" my-4>
 
-<div text-xl mr-8>機器</div>
+<div text-2xl mr-8 v-click>機器</div>
 
-<div i-carbon:chart-multitype text-4xl />
-<div i-carbon:data-blob text-4xl />
+<div i-carbon:chart-multitype text-4xl v-click/>
+<div i-carbon:data-blob text-4xl v-click/>
 
 </div>
-
-
 
 <br>
 
-### **將文字資料轉換數字/向量**
+<v-click>
+
+## **將文字資料轉換數字/向量**
+
+</v-click>
 
 <ol my-4>
-  <li v-click>詞元切分 (Tokenization)</li>
-  <li v-click>編碼/解碼 (Encode/Decode)</li>
-  <li v-click="[3, 4]" :class="$clicks >= 4 ? 'op-25' : '' ">嵌入 (Embedding)</li>
+  <li v-click="15">詞元切分 (Tokenization)</li>
+  <li v-click="16">編碼/解碼 (Encode/Decode)</li>
+  <li v-if="$clicks == 17">嵌入 (Embedding)</li>
+  <li v-click="18" :class="$clicks >= 18 ? 'op-25' : 'hidden' ">嵌入 (Embedding)</li>
 </ol>
 
 ::right::
 
-<div flex="~ justify-center" w-full>
-<img w-56 transition duration-700 :class="$clicks >=3 ? 'scale-180 origin-bottom mask' : ''"
+<div flex="~ justify-center" w-full v-click="13">
+<img w-56 transition duration-700 :class="$clicks >=14 ? 'scale-180 origin-bottom mask' : ''"
  src="/images/GPT%20Model%20Layers%20Diagram%20Focus.png" alt="">
 </div>
 
@@ -250,9 +286,9 @@ class SimpleTokenizerV1:
         text = re.sub(r'\s+([,.?!"()\'])', r'\1', text)
         return text
 ```
-<div text-xl my-2 v-click>這樣就完成了 <span :class="$clicks <=8 ? 'hidden' : ''">嗎!?</span></div>
+<div text-xl my-2 v-click>這樣就完成了 <span :class="$clicks <=10 ? 'hidden' : ''">嗎!?</span></div>
 
-<div text-xl v-click="10"> SimpleTokenizer is way too simple ... </div>
+<div text-xl v-click="12"> SimpleTokenizer is way too simple ... </div>
 
 
 ---
@@ -363,32 +399,33 @@ transition: fade-out
 layout: full
 ---
 
-<h1 font-bold flex="~ gap-2"> <div i-ph:tree-structure-duotone></div> <span v-mark="{at:1, color:'#ffd500', strokeWidth:3}">要怎麼讓模型「學會語言的結構」？</span> </h1>
+<h1 font-bold flex="~ gap-2"> <div i-ph:tree-structure-duotone></div> <span v-mark="{color:'#ffd500', strokeWidth:3}">要怎麼讓模型「學會語言的結構」？</span> </h1>
 
 
-<div text-2xl>**嵌入 Embedding** : 將 **離散物件** **映射** 到 **向量空間**</div>
+<div text-2xl v-click><span font-bold>嵌入 Embedding</span> : 將 <span font-bold>離散物件</span> <span font-bold>映射</span> 到 <span font-bold>向量空間</span></div>
 
-詞嵌入 (Word Embeddings)
+<div mt-12 w-60 ml-80 text-2xl text-red-400 font-bold transition duration-500 v-click="5">Word Embedding</div>
 
-<div flex="~ gap-64">
+<div flex="~ gap-64" mt-2>
 
-<div flex="~ col gap-2 justify-center items-center" data-id="raw-text">
+<div flex="~ col gap-2 justify-center items-center" data-id="raw-text" v-click>
   <div i-carbon:document-multiple-01 text-8xl />
   <div>Raw Text</div>
 </div>
 
-<FancyArrow v-click="1" forward:delay-100 q1="[data-id=raw-text]" pos1="right" q2="[data-id=embedding-vector]" pos2="left" color="red" width="8" seed="1" roughness="5" >
+<FancyArrow v-click="5" forward:delay-100 q1="[data-id=raw-text]" pos1="right" q2="[data-id=embedding-vector]" pos2="left" color="red" width="4" arc="-0.1" seed="1" roughness="5" >
+  
 </FancyArrow>
 
-<div flex="~ col gap-2 justify-end items-center" data-id="embedding-model" >
+<div flex="~ col gap-2 justify-end items-center" data-id="embedding-model" v-click="4">
 <div i-carbon:foundation-model text-8xl mt-4/>
-  <div>Embedding Model</div>
+  <div>Embedding Model/Layer</div>
 </div>
 
 <!-- <FancyArrow v-click="2" forward:delay-100 q1="[data-id=embedding-model]" pos1="right" q2="[data-id=embedding-vector]" pos2="left" color="red" width="2" seed="1" roughness="5" >
 </FancyArrow> -->
 
-<div flex="~ col gap-2 justify-center items-center" data-id="embedding-vector">
+<div flex="~ col gap-2 justify-center items-center" data-id="embedding-vector" v-click="3">
   <div i-ph:vector-three text-8xl />
   <div>Eembedding Vector/Matrix</div>
 </div>
@@ -396,6 +433,7 @@ layout: full
 
 
 </div>
+
 
 <!-- ## 詞嵌入 (Word Embeddings)
 
@@ -455,11 +493,13 @@ layout: two-cols-header
 
 ::left::
 
+<div w-90>
 <img w-90 transition duration-700 src="/images/TokenEmbedding.png" alt="" v-click>
-
+</div>
 
 ::right::
 
+<v-clicks>
 
 ``` python {hide|none|1-4|1-8|1-11|1-14|all}{lines:true}
 import torch
@@ -490,6 +530,8 @@ tensor([[ 1.2753, -0.2010, -0.1606],
         [ 0.9178,  1.5810,  1.3010]], grad_fn=<EmbeddingBackward0>)
 ```
 
+</v-clicks>
+
 <!--  -->
 
 ---
@@ -497,11 +539,11 @@ transition: fade-out
 layout: full
 ---
 
-<h1 font-bold flex="~ gap-2"> <div i-ph:list-numbers-duotone></div> <span v-mark="{at:1, color:'#ffd500', strokeWidth:3}">要怎麼讓模型「知道順序」？</span> </h1>
+<h1 font-bold flex="~ gap-2"> <div i-ph:list-numbers-duotone></div> <span v-mark="{color:'#ffd500', strokeWidth:3}">要怎麼讓模型「知道順序」？</span> </h1>
 
 
 <div flex="~ gap-2" class="mt-12" text-3xl v-click>
-  <div >我愛台妹</div> <div i-ph:equals-bold v-mark="{type: 'crossed-off'}"></div> <div >台妹愛我</div>
+  <div >我愛台妹</div> <div i-ph:equals-bold v-mark="{at: 3, type: 'crossed-off'}"></div> <div >台妹愛我</div>
 </div>
 
 <br>
@@ -536,20 +578,20 @@ OpenAI GPT 用的是 **絕對位置** 嵌入
 
 ---
 transition: fade-out
-layout: full
+layout: two-cols-header
 ---
 
 # 加上絕對位置嵌入層 (Position Embedding Layer) - I
 
+::left::
 
+<div w-96>
+<img v-click w-144 src="/images/PositionEmbedding.png" />
+</div>
 
----
-transition: fade-out
-layout: full
----
+::right::
 
-# 加上絕對位置嵌入層 (Position Embedding Layer) - II
-
+<v-clicks>
 
 ``` python
 import torch
@@ -559,28 +601,72 @@ output_dim = 3
 inputs = torch.tensor([2, 3, 5, 1])
 context_length = 4
 
-print("=="*5, "Token Embedding Layer", "=="*5)
-
-token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)  # 建立嵌入層
+token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)  # 建立詞嵌入層
 print(token_embedding_layer.weight, token_embedding_layer.weight.shape)
 
 token_embeddings = token_embedding_layer(inputs)  # 查閱操作 (Lookup Operation)
 print(token_embeddings, token_embeddings.shape)
 
-print("=="*5, "Position Embedding Layer", "=="*5)
-
-pos_embedding_layer = torch.nn.Embedding(context_length, output_dim)
+pos_embedding_layer = torch.nn.Embedding(context_length, output_dim)  # 建立位置嵌入層
 print(pos_embedding_layer.weight, pos_embedding_layer.weight.shape)
 
 pos_embeddings = pos_embedding_layer(torch.arange(context_length))
 print(pos_embeddings, pos_embeddings.shape)
 
-print("=="*5, "Input Embedding Layer", "=="*5)
-
-input_embeddings = token_embeddings + pos_embeddings
+input_embeddings = token_embeddings + pos_embeddings  # 詞嵌入與位置嵌入相加
 print(input_embeddings, input_embeddings.shape)
 ```
 
+</v-clicks>
+
+---
+transition: fade-out
+layout: two-cols-header
+---
+
+# 加上絕對位置嵌入層 (Position Embedding Layer) - II
+
+::left::
+
+<div w-96>
+  <img v-click w-144 src="/images/PositionEmbedding.png" />
+</div>
+
+::right::
+
+<v-clicks>
+
+``` log {maxHeight:'100px'}
+========== Token Embedding Layer ==========
+Parameter containing:
+tensor([[ 1.3026, -0.4288,  0.1233],
+        [ 1.6076,  1.1366,  0.9089],
+        [ 0.9494,  0.0266, -0.9221],
+        [ 0.7034,  0.8656,  0.5044],
+        [-0.9207,  0.3154, -0.0217],
+        [ 0.3441,  0.2271, -0.4597]], requires_grad=True) torch.Size([6, 3])
+tensor([[ 0.9494,  0.0266, -0.9221],
+        [ 0.7034,  0.8656,  0.5044],
+        [ 0.3441,  0.2271, -0.4597],
+        [ 1.6076,  1.1366,  0.9089]], grad_fn=<EmbeddingBackward0>) torch.Size([4, 3])
+========== Position Embedding Layer ==========
+Parameter containing:
+tensor([[-0.7372,  1.5757,  0.1620],
+        [ 0.8864, -1.0289,  0.0656],
+        [ 0.2447, -1.9013, -1.8635],
+        [ 0.1906, -0.6479, -0.8922]], requires_grad=True) torch.Size([4, 3])
+tensor([[-0.7372,  1.5757,  0.1620],
+        [ 0.8864, -1.0289,  0.0656],
+        [ 0.2447, -1.9013, -1.8635],
+        [ 0.1906, -0.6479, -0.8922]], grad_fn=<EmbeddingBackward0>) torch.Size([4, 3])
+========== Input Embedding Layer ==========
+tensor([[ 0.2123,  1.6022, -0.7600],
+        [ 1.5898, -0.1633,  0.5700],
+        [ 0.5889, -1.6742, -2.3232],
+        [ 1.7982,  0.4887,  0.0167]], grad_fn=<AddBackward0>) torch.Size([4, 3])
+```
+
+</v-clicks>
 
 ---
 transition: fade-out
@@ -591,32 +677,43 @@ layout: full
 
 <br>
 
-<div flex="~ col gap-24">
-
+<div flex="~ col">
   <div flex="~ gap-2 items-center">
     <div flex="~ gap-2 items-center" v-click>
       <div i-ph:book-open-text-duotone text-3xl />
       <span font-bold text-3xl>要怎麼讓模型「看懂」文字？</span>
     </div>
   </div>
-  <div flex="~ gap-2 items-center" v-click>
+  <div flex="~ gap-2 items-center" ml-8 text-xl op80 v-click>
     <div i-ph-arrow-bend-down-right-duotone op50 />
     <div>
-      Making it easy to understand and get started
+      詞元切分 (Tokenization) + 編碼/解碼 (Encode/Decode) + 嵌入 (Embedding)
     </div>
   </div>
 
-  <div flex="~ gap-2 items-center">
+  <div flex="~ gap-2 items-center" mt-16>
     <div flex="~ gap-2 items-center" v-click>
       <div i-ph:tree-structure-duotone text-3xl />
       <span font-bold text-3xl>要怎麼讓模型「學會語言的結構」？</span>
     </div>
   </div>
+  <div flex="~ gap-2 items-center" ml-8 text-xl op80 v-click>
+    <div i-ph-arrow-bend-down-right-duotone op50 />
+    <div>
+      文本 (Raw Text) -> 詞嵌入 (Word Embedding) -> 詞嵌入向量 (Word Embedding Vectors)
+    </div>
+  </div>
 
-  <div flex="~ gap-2 items-center">
+  <div flex="~ gap-2 items-center" mt-16>
     <div flex="~ gap-2 items-center" v-click>
       <div i-ph:list-numbers-duotone text-3xl />
       <span font-bold text-3xl>要怎麼讓模型「知道順序」？</span>
+    </div>
+  </div>
+  <div flex="~ gap-2 items-center" ml-8 text-xl op80 v-click>
+    <div i-ph-arrow-bend-down-right-duotone op50 />
+    <div>
+      詞嵌入向量 + 位置嵌入向量 = 輸入向量
     </div>
   </div>
 </div>
