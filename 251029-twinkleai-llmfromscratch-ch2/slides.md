@@ -50,17 +50,19 @@ layout: full
 
 <v-clicks>
 
-### ❌ 照本宣科
+### ❌ 不會 照小節順序
 
-### ✨ 程式碼 + 一些些 數學 + 一點點點 演算法
+### ✨ 會有 程式碼 + 一些些 數學 + 一點點點 演算法
 
 參考資料: https://notebooklm.google.com/notebook/dc566599-aeb3-41ee-abc4-188794473a0a
 
-Big Shout out to ...
+<div flex="~ gap-4">
+<div>Big Shout out to ...</div>
 
 <a href="https://youtube.com/playlist?list=PLTKMiZHVd_2IIEsoJrWACkIxLRdfMlw11&si=w2KrNOS3GJoBZQMF" target="_blank">
   <img w-56 transition duration-700 src="/images/YT-BuildLLMFromScratch.png" alt="">
 </a>
+</div>
 
 </v-clicks>
 
@@ -196,11 +198,27 @@ layout: two-cols-header
 
 講者 Notes｜要怎麼讓模型「看懂」文字？
 
-人類用語言、數學、音樂、影像來表達意義；
-機器只懂 Data 資料，準確來說是 0和1 數字
-我們的任務是把文字「表示」成機器可處理的數值表示。
+首先，人類和機器對於這世界的表示法有很大的差異
 
-[Click]詞元切分 Tokenization
+人類:
+* 的語言透過 聲音/文字 來傳達思想
+* 有數學利用符號來進行抽象關係的思考找出規律
+* 製作音樂來表達情感
+* 創作來來幫助回憶
+
+機器:
+* 只懂 Data 資料
+* 準確來說是 0和1 數字
+
+人類和機器擅長的表示法不同，我們和機器之間也要有一層轉換
+在現今的 LLM ,我們的任務是把文字「表示」成機器可處理的數值表示。
+
+先看一張圖，這是之後 ch5 
+
+[Click]詞元切分 Tokenization <Drawing>
+
+
+回答第一個問題，會先講解第1和2
 
 -->
 
@@ -240,6 +258,12 @@ print(preprocessed[:30])
 ```
 
 </v-clicks>
+
+<!-- 
+詞元切分 就是 將原始文本分解為較小的處理單元，稱為詞元 (tokens)
+
+直覺，按照書裡的範例程式碼
+ -->
 
 ---
 transition: fade-out
@@ -291,6 +315,17 @@ class SimpleTokenizerV1:
 <div text-xl v-click="12"> SimpleTokenizer is way too simple ... </div>
 
 
+<!--
+透過建立一個  詞彙表 (Vocabulary)
+
+SimpleTokenizer 還有些特殊的情形要處理:
+Hello 這個詞不在 The Verdict 文本裡
+出現一個不認識的詞只能標成 UNK
+
+這樣會造成甚麼問題呢?
+-->
+
+
 ---
 transition: fade-out
 layout: full
@@ -307,7 +342,7 @@ layout: full
 | --------------------- | ----------------------------------- | --------------------------------------------- | ------------------------------- | ----------------------------------------------------------- |
 | 基於單詞（Word-based）      | 直觀、易於設置                             | 詞彙庫龐大、[UNK] 多、無法處理詞形變化（go/going/went） | 以「詞」為最小單位建立詞彙表；英文常以空白切分，中文需額外斷詞 | —                                                           |
 | 基於字元（Character-based） | 詞彙庫極小、幾乎沒有未知詞                       | 語義單位過小、序列過長、訓練成本高                             | 以單一字元為單位編碼；可覆蓋任何文本              | —                                                           |
-| 子詞（Subword）           | 兼顧詞與字元優點：詞彙庫適中、幾乎無 [UNK]、能保留語義與處理詞形 | 需要訓練子詞規則；實作較複雜                                | 常見詞完整保留；罕見詞拆為更小但有意義的子單元         | Byte-level BPE（GPT-2）、WordPiece（BERT）、SentencePiece（常用於多模型） |
+| 子詞（Subword-based）           | 兼顧詞與字元優點：詞彙庫適中、幾乎無 [UNK]、能保留語義與處理詞形 | 需要訓練子詞規則；實作較複雜                                | 常見詞完整保留；罕見詞拆為更小但有意義的子單元         | Byte-level [BPE](https://en.wikipedia.org/wiki/Byte-pair_encoding)（GPT-2）、WordPiece（BERT）、SentencePiece（常用於多模型） |
 
 
 </v-clicks>
@@ -320,7 +355,14 @@ table tbody {
 </style>
 
 
-<!-- BPE 演算法 & 實作 (補充) -->
+<!-- 
+要知道這問題怎麼辦需要再了解一下分詞器
+
+AI 大神 Andrej Karpathy，Tokenizer 相當的不好玩，而且很多 LLM 的問題就是因為分詞器影響的
+
+圖表
+
+BPE 演算法 & 實作 (補充) -->
 
 
 
@@ -402,7 +444,7 @@ layout: full
 <h1 font-bold flex="~ gap-2"> <div i-ph:tree-structure-duotone></div> <span v-mark="{color:'#ffd500', strokeWidth:3}">要怎麼讓模型「學會語言的結構」？</span> </h1>
 
 
-<div text-2xl v-click><span font-bold>嵌入 Embedding</span> : 將 <span font-bold>離散物件</span> <span font-bold>映射</span> 到 <span font-bold>向量空間</span></div>
+<div text-2xl v-click><span font-bold>嵌入 (Embedding)</span> 的本質是一種將 <span font-bold>離散物件</span> <span font-bold>映射</span> 到連續 <span font-bold>向量空間</span> 的方法</div>
 
 <div mt-12 w-60 ml-80 text-2xl text-red-400 font-bold transition duration-500 v-click="5">Word Embedding</div>
 
@@ -459,7 +501,9 @@ NLP 小歷史(?
 
 <div i-ph-arrow-down op50 ml-1 text-sm v-click="2" />
 
-<h4 v-click="3">Word2Vec / GloVe / FastText</h4>
+<h4 v-click="3">
+  <a href="https://arxiv.org/pdf/1301.3781" target="_blank">Word2Vec</a> / <a href="https://nlp.stanford.edu/projects/glove/" target="_blank">GloVe</a> / <a href="https://github.com/facebookresearch/fastText" target="_blank">FastText</a>
+</h4>
 
 <div i-ph-arrow-down op50 ml-1 text-sm v-click="7" />
 
@@ -687,7 +731,7 @@ layout: full
   <div flex="~ gap-2 items-center" ml-8 text-xl op80 v-click>
     <div i-ph-arrow-bend-down-right-duotone op50 />
     <div>
-      詞元切分 (Tokenization) + 編碼/解碼 (Encode/Decode) + 嵌入 (Embedding)
+      詞元切分 (Tokenization) + 建立詞彙表(Vocabulary) 編碼/解碼 (Encode/Decode) + 嵌入 (Embedding)
     </div>
   </div>
 
