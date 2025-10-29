@@ -36,7 +36,7 @@ mdc: true
   <div mt-1 v-click>Build a LLM from scratch</div>
   <div mt-8 flex="~ gap-2" transition duration-500 v-click>
     <img src="https://cdn.discordapp.com/avatars/410799622756499456/b0c14ec402d31695d719203b6ebba71b.webp" rounded-full w-15 h-15  />
-    <div text-2xl >導讀人<br>Bobson Lin</div>
+    <div text-2xl >導讀人<br>Bbson (Bobson Lin)</div>
   </div>
 </h1>
 
@@ -108,14 +108,6 @@ layout: full
 </div>
 
 
-<!--
-今天先用三個問題
-
-看懂文字: 為了讓模型能讀我們的文本
-學會語言的結構: 不只懂詞，還要看出句子裡前後文，句子說甚麼。
-知道順序: 同樣的詞不同排列會變成不同意思，模型必須分辨先後脈絡。
--->
-
 <style>
 h1 {
   background-color:rgb(182, 145, 43);
@@ -129,7 +121,11 @@ h1 {
 </style>
 
 <!--
-Here is another comment.
+今天先用三個問題來串起今天的內容
+
+看懂文字: 為了讓模型能讀我們的文本
+學會語言的結構: 不只懂詞，還要看出句子裡前後文，句子說甚麼。
+知道順序: 同樣的詞不同排列會變成不同意思，模型必須分辨先後脈絡。
 -->
 
 ---
