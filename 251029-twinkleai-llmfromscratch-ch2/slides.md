@@ -40,6 +40,12 @@ mdc: true
   </div>
 </h1>
 
+
+<!-- 
+https://raw.githubusercontent.com/antfu/talks/refs/heads/main/2024-02-29/src/slides.md 
+-->
+
+
 ---
 transition: fade-out
 layout: full
@@ -52,7 +58,7 @@ layout: full
 
 ### ❌ 不會 照小節順序
 
-### ✨ 會有 程式碼 + 一些些 數學 + 一點點點 演算法
+### ✨ 會有 個人補充 + 程式碼 + 一些些 數學 + 一點點點 演算法
 
 參考資料: https://notebooklm.google.com/notebook/dc566599-aeb3-41ee-abc4-188794473a0a
 
@@ -103,7 +109,11 @@ layout: full
 
 
 <!--
-https://raw.githubusercontent.com/antfu/talks/refs/heads/main/2024-02-29/src/slides.md
+今天先用三個問題
+
+看懂文字: 為了讓模型能讀我們的文本
+學會語言的結構: 不只懂詞，還要看出句子裡前後文，句子說甚麼。
+知道順序: 同樣的詞不同排列會變成不同意思，模型必須分辨先後脈絡。
 -->
 
 <style>
