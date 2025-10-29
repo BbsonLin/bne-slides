@@ -104,7 +104,12 @@ layout: two-cols-header
 
 ### **表示/表示法 Representaion**
 
-人類如何表示 語言/圖像/聲音
+人類
+
+<div i-tabler:language />
+<div i-tabler:math-symbols />
+<div i-tabler:music />
+<div i-tabler:library-photo />
 
 機器如何表示 資料 (Data)
 => 轉換成 數字
@@ -151,7 +156,7 @@ layout: full
 將文本([The Verdict](https://en.wikisource.org/wiki/The_Verdict))依照空白做切分
 
 
-```python {none|1-2|4-5|all}
+```python {hide|none|1-2|4-5|all}
 with open("the-verdict.txt", "r", encoding="utf-8") as f:  # 讀取 The Verdict 文本
     raw_text = f.read()
 
@@ -187,7 +192,7 @@ layout: full
 
 <div text-xl mb-2> 透過建立一個 <span font-bold> 詞彙表 (Vocabulary)</span> 來實現 詞元 (Token) 到 整數 (Token ID) 的映射關係 </div>
 
-```python {none|1|2-4|6-12|14-17|all}{lines:false}
+```python {hide|none|1|2-4|6-12|14-17|all}{lines:false}
 class SimpleTokenizerV1:
     def __init__(self, vocab):
         self.str_to_int = vocab  # 詞彙表 (Vocabulary)
