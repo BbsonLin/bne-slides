@@ -179,6 +179,13 @@ async function copyPublicFiles() {
 async function main() {
   console.log('🚀 Starting build process...\n')
 
+  // Install all dependencies using workspace
+  console.log('📦 Installing workspace dependencies...')
+  await execa('pnpm', ['install'], {
+    cwd: rootDir,
+    stdio: 'inherit',
+  })
+
   // Clean dist directory
   await fs.rm(distDir, { recursive: true, force: true })
   await fs.mkdir(distDir, { recursive: true })
@@ -187,20 +194,40 @@ async function main() {
   const projects = await getProjects()
   console.log(`Found ${projects.length} projects:\n${projects.map(p => `  - ${p.name}`).join('\n')}\n`)
 
-  // Build all projects
-  for (const project of projects) {
-    await buildProject(project)
+  // Build all projects (continue on errors)
+  const results = {
+    successful: [] as Project[],
+    failed: [] as { project: Project, error: any }[],
   }
 
-  // Create index page
-  await createIndexPage(projects)
+  for (const project of projects) {
+    try {
+      await buildProject(project)
+      results.successful.push(project)
+    }
+    catch (error) {
+      console.error(`⚠️  Skipping ${project.name} due to build error\n`)
+      results.failed.push({ project, error })
+    }
+  }
+
+  // Create index page with only successful projects
+  await createIndexPage(results.successful)
 
   // Copy public files (_redirects, etc.)
   await copyPublicFiles()
 
-  console.log('\n✨ Build completed successfully!')
-  console.log(`\nProjects available at:`)
-  projects.forEach(p => console.log(`  - /${p.urlPath}`))
+  // Report results
+  console.log('\n📊 Build Summary:')
+  console.log(`✅ Successfully built: ${results.successful.length}/${projects.length}`)
+  results.successful.forEach(p => console.log(`   - ${p.name} → /${p.urlPath}`))
+
+  if (results.failed.length > 0) {
+    console.log(`\n❌ Failed to build: ${results.failed.length}/${projects.length}`)
+    results.failed.forEach(({ project }) => console.log(`   - ${project.name}`))
+  }
+
+  console.log('\n✨ Build process completed!')
 }
 
 main().catch((error) => {
