@@ -3,7 +3,8 @@
   "private": true,
   "packageManager": "pnpm@8.10.5",
   "scripts": {
-    "build": "rimraf dist && pnpm -r run build",
+    "build": "esno scripts/build-all.ts",
+    "build:all": "esno scripts/build-all.ts",
     "dev": "esno scripts/picker.ts dev --open",
     "lint": "eslint .",
     "update": "esno scripts/redirects.ts",
