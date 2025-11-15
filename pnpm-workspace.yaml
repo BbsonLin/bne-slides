@@ -1,2 +1,8 @@
 packages:
-  - '*/src'
+  - '231027-adlink-web-training-1'
+  - '231208-fellowship'
+  - '240628-fellowship'
+  - '240906-fellowship'
+  - '240920-fellowship'
+  - '241027-youth-fellowship'
+  - '251029-twinkleai-llmfromscratch-ch2'

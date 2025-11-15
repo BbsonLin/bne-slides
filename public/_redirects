@@ -1,0 +1,5 @@
+# Cloudflare Pages / Netlify redirects
+# This file will be copied to dist/_redirects during build
+
+# SPA fallback for each project
+/*/  /*/index.html  200
